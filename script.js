@@ -155,53 +155,111 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // View Details Functions
-    function showEventDetails(eventId) {
-        const events = {
-            'eta-aquariids': {
-                title: 'Eta Aquariids Meteor Shower 2025',
-                date: 'May 5-6, 2025',
-                description: 'The Eta Aquariids is one of the best meteor showers of the year, originating from the famous Halley\'s Comet. This year\'s shower promises to be particularly spectacular with optimal viewing conditions.',
-                details: {
-                    'Peak Time': 'Early morning hours (3-5 AM local time)',
-                    'Expected Rate': '30-40 meteors per hour',
-                    'Best Viewing': 'Southern Hemisphere',
-                    'Duration': 'April 19 - May 28, 2025',
-                    'Origin': 'Halley\'s Comet',
-                    'Next Shower': 'Delta Aquariids (July 28-29, 2025)',
-                    'Moon Phase': 'Waning Crescent (minimal interference)'
-                }
+    function showEventDetails(eventType) {
+        const details = {
+            'solar-eclipse': {
+                title: 'Total Solar Eclipse - March 14, 2025',
+                content: `
+                    <h3>Event Details</h3>
+                    <p>The total solar eclipse will begin at 09:30 UTC and reach totality at 10:45 UTC. The path of totality will be approximately 150km wide and will last for up to 4 minutes and 30 seconds at its maximum point.</p>
+                    
+                    <h3>Viewing Information</h3>
+                    <ul>
+                        <li>Best viewing locations: Madrid, Spain; Istanbul, Turkey; Moscow, Russia</li>
+                        <li>Partial eclipse visible across most of Europe and Asia</li>
+                        <li>Next occurrence: October 2, 2026 (South America)</li>
+                    </ul>
+                    
+                    <h3>Safety Guidelines</h3>
+                    <p>Always use proper solar viewing glasses during partial phases. Only during totality (when the sun is completely covered) can you safely view without protection.</p>
+                `
             },
-            'solstice': {
-                title: 'Summer Solstice 2025',
-                date: 'June 21, 2025',
-                description: 'The summer solstice marks the longest day of the year in the Northern Hemisphere and the official start of summer. This astronomical event occurs when the Earth\'s axial tilt is most inclined towards the Sun.',
-                details: {
-                    'Duration': 'Longest day of the year',
-                    'Sunrise': 'Earliest sunrise of the year',
-                    'Sunset': 'Latest sunset of the year',
-                    'Daylight': 'Up to 16 hours in northern latitudes',
-                    'Next Solstice': 'December 21, 2025 (Winter)',
-                    'Significance': 'Official start of summer',
-                    'Cultural Events': 'Worldwide celebrations and festivals'
-                }
+            'lyrid-meteor': {
+                title: 'Lyrid Meteor Shower - April 22, 2025',
+                content: `
+                    <h3>Event Details</h3>
+                    <p>The Lyrid meteor shower is expected to produce up to 20 meteors per hour at its peak. This year's shower coincides with a new moon, providing optimal dark sky conditions.</p>
+                    
+                    <h3>Viewing Information</h3>
+                    <ul>
+                        <li>Peak viewing time: 02:00 - 04:00 local time</li>
+                        <li>Best viewed from dark sky locations away from city lights</li>
+                        <li>Radiant point: Near the constellation Lyra</li>
+                    </ul>
+                    
+                    <h3>Viewing Tips</h3>
+                    <p>No special equipment needed. Lie back and let your eyes adjust to the dark for at least 20 minutes. The meteors will appear to radiate from the constellation Lyra.</p>
+                `
+            },
+            'planetary-alignment': {
+                title: 'Planetary Alignment - September 29, 2025',
+                content: `
+                    <h3>Event Details</h3>
+                    <p>Venus, Mars, and Jupiter will form a tight triangle in the morning sky, visible to the naked eye. The planets will be within 5 degrees of each other.</p>
+                    
+                    <h3>Viewing Information</h3>
+                    <ul>
+                        <li>Best viewing time: 04:30 - 06:00 local time</li>
+                        <li>Visible from all locations with clear eastern horizon</li>
+                        <li>Next similar alignment: March 15, 2026</li>
+                    </ul>
+                    
+                    <h3>Viewing Tips</h3>
+                    <p>Look towards the eastern horizon before sunrise. Venus will be the brightest, followed by Jupiter and Mars. A small telescope will reveal Jupiter's moons.</p>
+                `
             },
             'lunar-eclipse': {
-                title: 'Total Lunar Eclipse 2025',
-                date: 'September 7, 2025',
-                description: 'A total lunar eclipse will be visible across the Americas, Europe, and Africa. During this event, the Moon will pass through Earth\'s shadow, creating a stunning "blood moon" effect visible to the naked eye.',
-                details: {
-                    'Duration': '3 hours 29 minutes (total phase)',
-                    'Visibility': 'Visible from Americas, Europe, Africa',
-                    'Best Viewing': 'Eastern United States',
-                    'Next Eclipse': 'March 3, 2026 (Asia)',
-                    'Safety': 'Safe to view with naked eye',
-                    'Color': 'Reddish-orange (blood moon)',
-                    'Maximum Eclipse': '18:11 UTC'
-                }
+                title: 'Total Lunar Eclipse - September 7, 2025',
+                content: `
+                    <h3>Event Details</h3>
+                    <p>The total lunar eclipse will begin at 20:30 UTC and reach totality at 22:15 UTC. The "blood moon" effect will be visible for approximately 1 hour and 15 minutes.</p>
+                    
+                    <h3>Viewing Information</h3>
+                    <ul>
+                        <li>Visible across the Americas, Europe, and Africa</li>
+                        <li>No special equipment needed - safe to view with naked eye</li>
+                        <li>Next occurrence: March 3, 2026</li>
+                    </ul>
+                    
+                    <h3>What to Expect</h3>
+                    <p>The moon will gradually darken and turn a deep red color during totality. This is caused by sunlight being filtered through Earth's atmosphere and bending around our planet.</p>
+                `
             }
         };
 
-        showModal(events[eventId]);
+        const eventDetails = details[eventType];
+        if (eventDetails) {
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'event-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${eventDetails.title}</h2>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        ${eventDetails.content}
+                    </div>
+                </div>
+            `;
+
+            // Add modal to body
+            document.body.appendChild(modal);
+
+            // Add close functionality
+            const closeBtn = modal.querySelector('.close-modal');
+            closeBtn.addEventListener('click', () => {
+                modal.remove();
+            });
+
+            // Close on outside click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
     }
 
     function showDiscoveryDetails(discoveryId) {
@@ -469,5 +527,269 @@ document.addEventListener('DOMContentLoaded', function() {
                 chatInput.value = '';
             }
         }
+    });
+
+    // User Management
+    let currentUser = null;
+
+    // Modal Functions
+    function showLoginModal() {
+        document.getElementById('loginModal').style.display = 'block';
+    }
+
+    function closeLoginModal() {
+        document.getElementById('loginModal').style.display = 'none';
+    }
+
+    function showSignupModal() {
+        closeLoginModal();
+        document.getElementById('signupModal').style.display = 'block';
+    }
+
+    function closeSignupModal() {
+        document.getElementById('signupModal').style.display = 'none';
+    }
+
+    function showForgotPasswordModal() {
+        // Implement forgot password functionality
+        alert('Forgot password functionality coming soon!');
+    }
+
+    // Form Handlers
+    function handleLogin(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // In a real application, you would send this to your backend
+        // For now, we'll use a simple mock authentication
+        if (username && password) {
+            currentUser = {
+                username: username,
+                avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`
+            };
+            updateUserProfile();
+            closeLoginModal();
+            showNotification('Login successful!');
+        } else {
+            showNotification('Please enter both username and password', 'error');
+        }
+    }
+
+    function handleSignup(event) {
+        event.preventDefault();
+        const userData = {
+            username: document.getElementById('signupUsername').value,
+            email: document.getElementById('signupEmail').value,
+            college: document.getElementById('college').value,
+            age: document.getElementById('age').value,
+            gender: document.getElementById('gender').value,
+            fascination: document.getElementById('fascination').value,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        // Store user data in Firestore
+        const db = firebase.firestore();
+        const user = firebase.auth().currentUser;
+
+        if (user) {
+            db.collection('users').doc(user.uid).set(userData)
+                .then(() => {
+                    updateUserProfile(userData);
+                    closeSignupModal();
+                    showNotification('Account created successfully!');
+                })
+                .catch((error) => {
+                    console.error('Error saving user data:', error);
+                    showNotification('Error saving user data', 'error');
+                });
+        }
+    }
+
+    function updateUserProfile(userData) {
+        const userProfile = document.getElementById('userProfile');
+        if (userData) {
+            userProfile.innerHTML = `
+                <img src="${userData.photoURL || 'https://via.placeholder.com/40'}" alt="${userData.username}">
+                <span>${userData.username}</span>
+                <button class="login-button" onclick="showProfileModal()">Profile</button>
+            `;
+        } else {
+            userProfile.innerHTML = `
+                <img src="https://via.placeholder.com/40" alt="Guest">
+                <span>Guest</span>
+                <button class="login-button" onclick="showLoginModal()">Login</button>
+            `;
+        }
+    }
+
+    function handleLogout() {
+        currentUser = null;
+        updateUserProfile();
+        showNotification('Logged out successfully');
+    }
+
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+
+    // Close modals when clicking outside
+    window.onclick = function(event) {
+        if (event.target.className === 'modal') {
+            event.target.style.display = 'none';
+        }
+    }
+
+    // Initialize user profile
+    updateUserProfile();
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Google Authentication
+    function handleGoogleLogin() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                const user = result.user;
+                // Check if user exists in database
+                checkUserExists(user.uid, user.email);
+            })
+            .catch((error) => {
+                console.error('Google login error:', error);
+                showNotification('Login failed. Please try again.', 'error');
+            });
+    }
+
+    function checkUserExists(uid, email) {
+        const db = firebase.firestore();
+        db.collection('users').doc(uid).get()
+            .then((doc) => {
+                if (doc.exists) {
+                    // User exists, update profile
+                    updateUserProfile(doc.data());
+                } else {
+                    // New user, show signup form with pre-filled email
+                    closeLoginModal();
+                    showSignupModal();
+                    document.getElementById('signupEmail').value = email;
+                }
+            })
+            .catch((error) => {
+                console.error('Error checking user:', error);
+                showNotification('Error checking user data', 'error');
+            });
+    }
+
+    function showProfileModal() {
+        const user = firebase.auth().currentUser;
+        if (user) {
+            const db = firebase.firestore();
+            db.collection('users').doc(user.uid).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        const profileContent = document.getElementById('profileContent');
+                        profileContent.innerHTML = `
+                            <div class="profile-info">
+                                <h3>Personal Information</h3>
+                                <p><strong>Username:</strong> ${userData.username}</p>
+                                <p><strong>Email:</strong> ${user.email}</p>
+                                <p><strong>College:</strong> ${userData.college}</p>
+                                <p><strong>Age:</strong> ${userData.age}</p>
+                                <p><strong>Gender:</strong> ${userData.gender}</p>
+                            </div>
+                            <div class="profile-info">
+                                <h3>Space Interest</h3>
+                                <p>${userData.fascination}</p>
+                            </div>
+                        `;
+                        document.getElementById('profileModal').style.display = 'block';
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching user data:', error);
+                    showNotification('Error loading profile', 'error');
+                });
+        }
+    }
+
+    function closeProfileModal() {
+        document.getElementById('profileModal').style.display = 'none';
+    }
+
+    function showEditProfile() {
+        // Implement edit profile functionality
+        showNotification('Edit profile functionality coming soon!');
+    }
+
+    function showUserFeedback() {
+        // Implement user feedback functionality
+        showNotification('Feedback functionality coming soon!');
+    }
+
+    // Auth State Listener
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // User is signed in
+            const db = firebase.firestore();
+            db.collection('users').doc(user.uid).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        updateUserProfile(doc.data());
+                    }
+                });
+        } else {
+            // User is signed out
+            updateUserProfile(null);
+        }
+    });
+
+    // Event filtering functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            const filter = button.getAttribute('data-filter');
+
+            timelineItems.forEach(item => {
+                if (filter === 'all' || item.getAttribute('data-type') === filter) {
+                    item.style.display = 'flex';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateX(0)';
+                    }, 50);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(-20px)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
     });
 }); 
